@@ -167,7 +167,7 @@ func newOutletReceipt(repo repository.Interface, acctId string, outlet string, t
 }
 
 func (r *receiptCreator) createReceipts(count int) (err error) {
-	fmt.Printf("createReceipts[%s %s]\n", r.acctId, r.outlet)
+	fmt.Printf("createReceipts[%s %s]...\n", r.acctId, r.outlet)
 	for i := 0; i < count; i++ {
 		_, err = r.createReceipt(i)
 		if err != nil {
