@@ -167,6 +167,7 @@ func newOutletReceipt(repo repository.Interface, acctId string, outlet string, t
 }
 
 func (r *receiptCreator) createReceipts(count int) (err error) {
+	fmt.Printf("createReceipts[%s %s]\n", r.acctId, r.outlet)
 	for i := 0; i < count; i++ {
 		_, err = r.createReceipt(i)
 		if err != nil {
@@ -177,7 +178,6 @@ func (r *receiptCreator) createReceipts(count int) (err error) {
 }
 
 func (r *receiptCreator) createReceipt(index int) (id string, err error) {
-	fmt.Printf("createReceipt[%s %s %d]\n", r.acctId, r.outlet, index)
 	indexString := strconv.Itoa(index)
 	index12String := fmt.Sprintf("%012d", index)
 	receipt := &model.Receipt{
