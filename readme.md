@@ -9,9 +9,9 @@
     ```
     $ time mongo mongodb://localhost:27017/db_test --username db_test_user --password _db_tESt_pasSword_ --quiet --eval 'db.Receipts.find({acctId:"954815416"}).count()'
     107186
-    real	3m50.448s
-    user	0m0.089s
-    sys	    0m0.028s
+    real    3m50.448s
+    user    0m0.089s
+    sys     0m0.028s
     ```
 * create invidual index
     + note: each will take >4 minutes
@@ -21,21 +21,21 @@
     db.Receipts.createIndex({"txnTime": 1})
     $ time mongo mongodb://localhost:27017/db_test --username db_test_user --password _db_tESt_pasSword_ --quiet --eval 'db.Receipts.find({acctId:"954815416"}).count()'
     107186
-    real	0m0.244s
-    user	0m0.092s
-    sys	    0m0.021s
+    real    0m0.244s
+    user    0m0.092s
+    sys     0m0.021s
     $ time mongo mongodb://localhost:27017/db_test --username db_test_user --password _db_tESt_pasSword_ --quiet --eval 'db.Receipts.find({acctId:"954815416",outlet:"MI MING MART 954815416 - MK"}).sort({txnTime:-1})' > /dev/null
-    real	0m27.904s
-    user	0m0.126s
-    sys	    0m0.026s
+    real    0m27.904s
+    user    0m0.126s
+    sys     0m0.026s
     ```
 * create compound index
     ```
     db.Receipts.createIndex({"acctId": 1,"outlet": 1,"txnTime": 1})
     $ time mongo mongodb://localhost:27017/db_test --username db_test_user --password _db_tESt_pasSword_ --quiet --eval 'db.Receipts.find({acctId:"954815416",outlet:"MI MING MART 954815416 - MK"}).sort({txnTime:-1})' > /dev/null
-    real	0m0.277s
-    user	0m0.103s
-    sys	    0m0.033s
+    real    0m0.277s
+    user    0m0.103s
+    sys     0m0.033s
     ```
 * drop individual indexes which are covered by the compound index while all the previous queries still takes less than 1s
     ```
