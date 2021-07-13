@@ -1,0 +1,14 @@
+[
+    {
+        "createIndexes": "Receipts",
+        "indexes": [{
+            "key": {
+                "acctId": 1,
+                "txnTime": 1,
+                "outlet": 1,
+                "address": 1
+            },
+            "name": "acctid_txntime_outlet_address"
+        }]
+    }
+]

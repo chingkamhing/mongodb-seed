@@ -1,0 +1,6 @@
+[
+    {
+        "dropIndexes": "Receipts",
+        "index": "acctid_txntime_outlet_address"
+    }
+]
