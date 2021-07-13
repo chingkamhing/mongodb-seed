@@ -46,4 +46,4 @@
 
 ## TLDR
 
-* compound index increase compound query dramatically (i.e. typically takes less than 1s)
+* compound index increase compound query dramatically from >25s to <1s for 857488 records
