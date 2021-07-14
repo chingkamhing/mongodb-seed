@@ -44,9 +44,9 @@
     ```
 * drop individual indexes which are covered by the compound index while all the previous queries still takes less than 1s
     ```
-    db.Receipts.dropIndexes("acctId_1")
-    db.Receipts.dropIndexes("outlet_1")
-    db.Receipts.dropIndexes("txnTime_1")
+    db.Receipts.dropIndex("acctId_1")
+    db.Receipts.dropIndex("outlet_1")
+    db.Receipts.dropIndex("txnTime_1")
     ```
 
 ## TLDR
