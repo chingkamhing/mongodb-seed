@@ -10,7 +10,12 @@
     + Intel i5 - 4210U, 1.70 GHz, 3 MB
     + 12GB RAM
     + Kingston A400 SATA 240G SSD
-* before create any indexes (except the default "_id")
+* seed the test database with 1 million documents
+    + note: this seeding takes ~15 minutes
+    ```
+    $ make build && ./mongodb-seed --password database_password
+    ```
+* before create any indexes (except the default "_id"), query for "acctId" is very slow
     ```
     $ time mongo mongodb://localhost:27017/database_name --username database_username --password database_password --quiet --eval 'db.Receipts.find({acctId:"954815416"}).count()'
     107186
@@ -18,7 +23,7 @@
     user    0m0.089s
     sys     0m0.028s
     ```
-* create invidual index
+* create following invidual indexes can help query for "acctId" but not for "acctId" AND "outlet"
     + note: each createIndex() will take >4 minutes
     ```
     db.Receipts.createIndex({"acctId": 1})
@@ -34,7 +39,7 @@
     user    0m0.126s
     sys     0m0.026s
     ```
-* create compound index
+* create following compound index can help query for "acctId" AND "outlet" AND "txnType"
     ```
     db.Receipts.createIndex({"acctId": 1,"outlet": 1,"txnTime": 1})
     $ time mongo mongodb://localhost:27017/database_name --username database_username --password database_password --quiet --eval 'db.Receipts.find({acctId:"954815416",outlet:"MI MING MART 954815416 - MK"}).sort({txnTime:-1})' > /dev/null
@@ -42,12 +47,15 @@
     user    0m0.103s
     sys     0m0.033s
     ```
-* drop individual indexes which are covered by the compound index while all the previous queries still takes less than 1s
+* drop redundant indexes
+    + base on [Want MongoDB Performance? You Will Need to Add and Remove Indexes!](https://www.percona.com/blog/2021/03/22/want-mongodb-performance-you-will-need-to-add-and-remove-indexes/), left-most indexes are redundant and may be dropped
     ```
     db.Receipts.dropIndex("acctId_1")
-    db.Receipts.dropIndex("outlet_1")
-    db.Receipts.dropIndex("txnTime_1")
     ```
+
+## Knowledge Base
+* [Index Build Operations on a Populated Collection](https://docs.mongodb.com/v4.0/core/index-creation/)
+* [Want MongoDB Performance? You Will Need to Add and Remove Indexes!](https://www.percona.com/blog/2021/03/22/want-mongodb-performance-you-will-need-to-add-and-remove-indexes/)
 
 ## TLDR
 
