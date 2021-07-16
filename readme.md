@@ -17,7 +17,7 @@
     ```
 * before create any indexes (except the default "_id"), query for "acctId" is very slow
     ```
-    $ time mongo mongodb://localhost:27017/database_name --username database_username --password database_password --quiet --eval 'db.Receipts.find({acctId:"954815416"}).count()'
+    $ time mongo mongodb://localhost/database_name --username database_username --password database_password --quiet --eval 'db.Receipts.find({acctId:"100000000001"}).count()'
     107186
     real    3m50.448s
     user    0m0.089s
@@ -29,20 +29,20 @@
     db.Receipts.createIndex({"acctId": 1})
     db.Receipts.createIndex({"outlet": 1})
     db.Receipts.createIndex({"txnTime": 1})
-    $ time mongo mongodb://localhost:27017/database_name --username database_username --password database_password --quiet --eval 'db.Receipts.find({acctId:"954815416"}).count()'
+    $ time mongo mongodb://localhost/database_name --username database_username --password database_password --quiet --eval 'db.Receipts.find({acctId:"100000000001"}).count()'
     107186
     real    0m0.244s
     user    0m0.092s
     sys     0m0.021s
-    $ time mongo mongodb://localhost:27017/database_name --username database_username --password database_password --quiet --eval 'db.Receipts.find({acctId:"954815416",outlet:"MI MING MART 954815416 - MK"}).sort({txnTime:-1})' > /dev/null
+    $ time mongo mongodb://localhost/database_name --username database_username --password database_password --quiet --eval 'db.Receipts.find({acctId:"100000000001",outlet:"MI MING MART - MK"}).sort({txnTime:-1})' > /dev/null
     real    0m27.904s
     user    0m0.126s
     sys     0m0.026s
     ```
 * create following compound index can help query for "acctId" AND "outlet" AND "txnType"
     ```
-    db.Receipts.createIndex({"acctId": 1,"outlet": 1,"txnTime": 1})
-    $ time mongo mongodb://localhost:27017/database_name --username database_username --password database_password --quiet --eval 'db.Receipts.find({acctId:"954815416",outlet:"MI MING MART 954815416 - MK"}).sort({txnTime:-1})' > /dev/null
+    db.Receipts.createIndex({"acctId": 1,"outlet": 1,"txnType": 1,"txnTime": 1})
+    $ time mongo mongodb://localhost/database_name --username database_username --password database_password --quiet --eval 'db.Receipts.find({acctId:"100000000001",outlet:"MI MING MART - MK"}).sort({txnTime:-1})' > /dev/null
     real    0m0.277s
     user    0m0.103s
     sys     0m0.033s
